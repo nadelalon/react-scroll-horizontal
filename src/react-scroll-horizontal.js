@@ -78,9 +78,9 @@ export default class HorizontalScroll extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.children !== nextProps.children) {
+    if (!this.props.disableChildrenReset && this.props.children !== nextProps.children) {
       // Reset container offset
-      this.resetMin()
+          this.resetMin()
     }
   }
 
