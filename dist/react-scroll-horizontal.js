@@ -113,7 +113,7 @@ var HorizontalScroll = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (this.props.children !== nextProps.children) {
+      if (!this.props.disableChildrenReset && this.props.children !== nextProps.children) {
         // Reset container offset
         this.resetMin();
       }
