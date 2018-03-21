@@ -121,7 +121,7 @@ var HorizontalScroll = function (_Component) {
   }, {
     key: 'caniscroll',
     value: function caniscroll() {
-      var el = _reactDom2.default.findDOMNode(this.refs['hScrollParent']);
+      var el = _reactDom2.default.findDOMNode(this.hScrollParent);
       var rect = el.getBoundingClientRect();
       var scroller = el.firstElementChild;
 
@@ -139,7 +139,7 @@ var HorizontalScroll = function (_Component) {
       this.calculate.timer = setTimeout(function () {
 
         // Calculate the bounds of the scroll area
-        var el = _reactDom2.default.findDOMNode(_this3.refs['hScrollParent']);
+        var el = _reactDom2.default.findDOMNode(_this3.hScrollParent);
 
         var max = el.lastElementChild.scrollWidth;
         var win = el.offsetWidth;
@@ -194,9 +194,11 @@ var HorizontalScroll = function (_Component) {
         'div',
         {
           onWheel: this.onScrollStart,
-          ref: 'hScrollParent',
+          ref: function ref(r) {
+            _this4.hScrollParent = r;
+          },
           style: styles,
-          className: 'scroll-horizontal'
+          className: 'scroll-horizontal ' + (this.props.className || '')
         },
         _react2.default.createElement(
           _reactMotion.Motion,
@@ -233,12 +235,14 @@ HorizontalScroll.proptypes = {
   reverseScroll: _propTypes2.default.bool,
   pageLock: _propTypes2.default.bool,
   config: _propTypes2.default.object,
-  style: _propTypes2.default.object
+  style: _propTypes2.default.object,
+  className: _propTypes2.default.string
 };
 
 HorizontalScroll.defaultProps = {
   reverseScroll: false,
   pageLock: false,
   config: null,
-  style: { width: '100%', height: '100%' }
+  style: { width: '100%', height: '100%' },
+  className: null
 };

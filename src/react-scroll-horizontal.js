@@ -85,7 +85,7 @@ export default class HorizontalScroll extends Component {
   }
 
   caniscroll() {
-    let el = DOM.findDOMNode(this.refs['hScrollParent'])
+    let el = DOM.findDOMNode(this.hScrollParent)
     let rect = el.getBoundingClientRect()
     let scroller = el.firstElementChild
 
@@ -101,7 +101,7 @@ export default class HorizontalScroll extends Component {
     this.calculate.timer = setTimeout(() => {
 
       // Calculate the bounds of the scroll area
-      let el = DOM.findDOMNode(this.refs['hScrollParent'])
+      let el = DOM.findDOMNode(this.hScrollParent)
 
       let max = el.lastElementChild.scrollWidth
       let win = el.offsetWidth
@@ -143,10 +143,10 @@ export default class HorizontalScroll extends Component {
 
     return (
       <div
-        onWheel={this.onScrollStart}
-        ref='hScrollParent'
+        onWheel={ this.onScrollStart }
+        ref={ r => { this.hScrollParent = r }}
         style={ styles }
-        className='scroll-horizontal'
+        className={`scroll-horizontal ${this.props.className || ''}`}
       >
         <Motion style={ { z: spring(this.state.animValues, springConfig) } }>
           { ({z}) => {
@@ -174,12 +174,14 @@ HorizontalScroll.proptypes = {
   reverseScroll: PropTypes.bool,
   pageLock: PropTypes.bool,
   config: PropTypes.object,
-  style: PropTypes.object
+  style: PropTypes.object,
+  className: PropTypes.string,
 }
 
 HorizontalScroll.defaultProps = {
   reverseScroll: false,
   pageLock: false,
   config: null,
-  style: { width: `100%`, height: `100%` }
+  style: { width: `100%`, height: `100%` },
+  className: null,
 }
