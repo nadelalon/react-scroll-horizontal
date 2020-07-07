@@ -46,12 +46,34 @@ export default class ScrollHorizontal extends Component {
     }
   }
 
+  getEventDelta = (e) => {
+    const delta = e.deltaY ? e.deltaY : e.deltaX
+    const deltaMode = e.deltaMode
+
+    let multiplier;
+    switch (deltaMode) {
+      case 1:
+        multiplier = Number(
+          window.getComputedStyle(document.body)
+            .getPropertyValue("font-size")
+            .match(/\d+/)[0]
+        )
+        break
+      case 2:
+        multiplier = window.innerHeight
+        break
+      default:
+        multiplier = 1;
+    }
+
+    return Math.floor(delta * multiplier)
+  }
+
   onScrollStart(e) {
     e.preventDefault()
     // If scrolling on x axis, change to y axis. Otherwise, just get the y deltas.
     // (Basically, this for Apple mice that allow horizontal scrolling by default)
-    var rawData = e.deltaY ? e.deltaY : e.deltaX
-    var mouseY = Math.floor(rawData)
+    var mouseY = this.getEventDelta(e)
 
     // Bring in the existing animation values
     var animationValue = this.state.animValues
